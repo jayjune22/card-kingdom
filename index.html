@@ -11,160 +11,190 @@
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f0225; --bg2: #1a0533; --purple: #6c2eb9; --purple-light: #9b59e8;
-      --yellow: #ffd700; --yellow-light: #ffe566; --pink: #ff6b9d;
-      --mint: #4ecdc4; --orange: #ff8c42; --green: #4ade80; --red: #f87171;
-      --card-bg: rgba(255,255,255,0.07); --card-border: rgba(255,255,255,0.15);
-      --text: #fff; --text-dim: rgba(255,255,255,0.6);
+      --bg:#0f0225; --bg2:#1a0533; --purple:#6c2eb9; --purple-light:#9b59e8;
+      --yellow:#ffd700; --pink:#ff6b9d; --orange:#ff8c42; --green:#4ade80; --red:#f87171;
+      --card-bg:rgba(255,255,255,0.07); --card-border:rgba(255,255,255,0.15);
+      --text:#fff; --text-dim:rgba(255,255,255,0.6);
     }
-    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    body { font-family:'Jua',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; max-width:430px; margin:0 auto; overflow-x:hidden; position:relative; }
-    body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse at 20% 20%,rgba(108,46,185,.3) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(255,107,157,.2) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(78,205,196,.1) 0%,transparent 60%); pointer-events:none; z-index:0; }
-    .screen { display:none; min-height:100vh; position:relative; z-index:1; animation:fadeIn .3s ease; }
-    .screen.active { display:block; }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-    .header { padding:50px 20px 20px; display:flex; justify-content:space-between; align-items:center; }
-    .header-title { font-size:22px; }
-    .coin-badge { background:linear-gradient(135deg,#ffd700,#ffaa00); border-radius:50px; padding:8px 16px; font-size:18px; font-weight:bold; color:#1a0533; display:flex; align-items:center; gap:5px; box-shadow:0 4px 20px rgba(255,215,0,.4); animation:coinGlow 2s ease-in-out infinite alternate; }
-    @keyframes coinGlow { from{box-shadow:0 4px 20px rgba(255,215,0,.3)} to{box-shadow:0 4px 30px rgba(255,215,0,.7)} }
-    .welcome-section { padding:10px 20px 20px; text-align:center; }
-    .kingdom-icon { font-size:80px; display:block; margin:10px auto; animation:float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    .welcome-title { font-size:28px; margin:5px 0; }
-    .welcome-sub { font-size:14px; color:var(--text-dim); margin-bottom:20px; }
-    .news-banner { margin:0 20px 20px; background:linear-gradient(135deg,rgba(255,107,157,.2),rgba(108,46,185,.2)); border:1px solid rgba(255,107,157,.3); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:10px; }
-    .news-icon { font-size:28px; flex-shrink:0; animation:shake 2s ease-in-out infinite; }
-    @keyframes shake { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-5deg)} 75%{transform:rotate(5deg)} }
-    .news-text { font-size:13px; line-height:1.5; }
-    .news-tag { font-size:11px; color:var(--pink); font-weight:bold; }
-    .quick-menu { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 20px; }
-    .menu-card { background:var(--card-bg); border:1px solid var(--card-border); border-radius:20px; padding:20px 16px; cursor:pointer; transition:all .2s; text-align:center; backdrop-filter:blur(10px); }
-    .menu-card:active { transform:scale(.95); }
-    .menu-emoji { font-size:40px; display:block; margin-bottom:8px; }
-    .menu-label { font-size:15px; }
-    .menu-sub { font-size:11px; color:var(--text-dim); margin-top:3px; }
-    .section-title { padding:0 20px 12px; font-size:16px; color:var(--text-dim); }
-    #screen-home { padding-bottom:env(safe-area-inset-bottom); }
-    .my-cards-scroll { display:flex; gap:12px; padding:0 20px 120px; overflow-x:auto; scrollbar-width:none; }
-    .card-item { background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:14px; min-width:100px; text-align:center; cursor:pointer; transition:all .2s; flex-shrink:0; backdrop-filter:blur(10px); position:relative; overflow:hidden; }
-    .card-item:active { transform:scale(.95); }
-    .card-emoji { font-size:36px; display:block; margin-bottom:6px; }
-    .card-name { font-size:13px; }
-    .card-count { font-size:11px; color:var(--yellow); margin-top:3px; }
-    .card-trend { font-size:11px; margin-top:2px; }
-    .trend-up { color:var(--green); } .trend-down { color:var(--red); } .trend-same { color:var(--text-dim); }
-    .grade-badge { position:absolute; top:6px; right:6px; font-size:10px; padding:2px 6px; border-radius:50px; }
-    .grade-common { background:rgba(156,163,175,.3); color:#9ca3af; }
-    .grade-rare { background:rgba(59,130,246,.3); color:#60a5fa; }
-    .grade-epic { background:rgba(168,85,247,.3); color:#c084fc; }
-
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    body{font-family:'Jua',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;position:relative;}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(108,46,185,.3) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(255,107,157,.2) 0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(78,205,196,.1) 0%,transparent 60%);pointer-events:none;z-index:0;}
+    .screen{display:none;min-height:100vh;position:relative;z-index:1;animation:fadeIn .3s ease;}
+    .screen.active{display:block;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    /* 헤더 */
+    .header{padding:50px 20px 20px;display:flex;justify-content:space-between;align-items:center;}
+    .header-title{font-size:22px;}
+    .coin-badge{background:linear-gradient(135deg,#ffd700,#ffaa00);border-radius:50px;padding:8px 16px;font-size:18px;font-weight:bold;color:#1a0533;display:flex;align-items:center;gap:5px;box-shadow:0 4px 20px rgba(255,215,0,.4);animation:coinGlow 2s ease-in-out infinite alternate;}
+    @keyframes coinGlow{from{box-shadow:0 4px 20px rgba(255,215,0,.3)}to{box-shadow:0 4px 30px rgba(255,215,0,.7)}}
+    /* 홈 */
+    .welcome-section{padding:10px 20px 20px;text-align:center;}
+    .kingdom-icon{font-size:80px;display:block;margin:10px auto;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .welcome-title{font-size:28px;margin:5px 0;}
+    .welcome-sub{font-size:14px;color:var(--text-dim);margin-bottom:20px;}
+    .news-banner{margin:0 20px 20px;background:linear-gradient(135deg,rgba(255,107,157,.2),rgba(108,46,185,.2));border:1px solid rgba(255,107,157,.3);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+    .news-icon{font-size:28px;flex-shrink:0;animation:shake 2s ease-in-out infinite;}
+    @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+    .news-text{font-size:13px;line-height:1.5;}
+    .news-tag{font-size:11px;color:var(--pink);font-weight:bold;}
+    .quick-menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px 20px;}
+    .menu-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:20px 16px;cursor:pointer;transition:all .2s;text-align:center;backdrop-filter:blur(10px);}
+    .menu-card:active{transform:scale(.95);}
+    .menu-emoji{font-size:40px;display:block;margin-bottom:8px;}
+    .menu-label{font-size:15px;}
+    .menu-sub{font-size:11px;color:var(--text-dim);margin-top:3px;}
+    .section-title{padding:0 20px 12px;font-size:16px;color:var(--text-dim);}
+    #screen-home{padding-bottom:env(safe-area-inset-bottom);}
+    .my-cards-scroll{display:flex;gap:12px;padding:0 20px 120px;overflow-x:auto;scrollbar-width:none;}
+    .card-item{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:14px;min-width:100px;text-align:center;cursor:pointer;transition:all .2s;flex-shrink:0;backdrop-filter:blur(10px);position:relative;overflow:hidden;}
+    .card-item:active{transform:scale(.95);}
+    .card-emoji{font-size:36px;display:block;margin-bottom:6px;}
+    .card-name{font-size:13px;}
+    .card-count{font-size:11px;color:var(--yellow);margin-top:3px;}
+    .card-trend{font-size:11px;margin-top:2px;}
+    .trend-up{color:var(--green);}.trend-down{color:var(--red);}.trend-same{color:var(--text-dim);}
+    .grade-badge{position:absolute;top:6px;right:6px;font-size:10px;padding:2px 6px;border-radius:50px;}
+    .grade-common{background:rgba(156,163,175,.3);color:#9ca3af;}
+    .grade-rare{background:rgba(59,130,246,.3);color:#60a5fa;}
+    .grade-epic{background:rgba(168,85,247,.3);color:#c084fc;}
     /* 시장 */
-    .market-section-label { padding:0 20px 10px; font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:6px; }
-    .hot-label { color:var(--orange); font-size:13px; font-weight:bold; }
-    .market-list { padding:0 20px 100px; }
-    .market-divider { margin:16px 0 12px; border:none; border-top:1px solid rgba(255,255,255,.08); }
-    .market-item { background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:16px; margin-bottom:12px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .2s; backdrop-filter:blur(10px); }
-    .market-item.hot-item { border-color:rgba(255,140,66,.4); background:rgba(255,140,66,.07); }
-    .market-item:active { transform:scale(.98); }
-    .market-emoji { font-size:44px; flex-shrink:0; }
-    .market-info { flex:1; min-width:0; }
-    .market-name { font-size:16px; }
-    .market-price { font-size:18px; color:var(--yellow); font-weight:bold; display:flex; align-items:center; gap:6px; margin-top:2px; }
-    .market-trend { font-size:12px; }
-    .market-grade { font-size:11px; color:var(--text-dim); margin-top:2px; }
-    .hot-reason { font-size:11px; color:var(--orange); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .mini-chart { width:60px; height:30px; flex-shrink:0; }
-    .buy-btn { background:linear-gradient(135deg,var(--purple),var(--purple-light)); border:none; border-radius:50px; padding:8px 16px; color:white; font-family:'Jua',sans-serif; font-size:14px; cursor:pointer; transition:all .2s; flex-shrink:0; }
-    .buy-btn:active { transform:scale(.95); }
-    .cant-buy { background:rgba(255,255,255,.1); color:var(--text-dim); cursor:not-allowed; }
-
+    .market-section-label{padding:0 20px 10px;font-size:13px;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+    .hot-label{color:var(--orange);font-size:13px;font-weight:bold;}
+    .market-list{padding:0 20px 100px;}
+    .market-divider{margin:16px 0 12px;border:none;border-top:1px solid rgba(255,255,255,.08);}
+    .market-item{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;backdrop-filter:blur(10px);}
+    .market-item.hot-item{border-color:rgba(255,140,66,.4);background:rgba(255,140,66,.07);}
+    .market-item:active{transform:scale(.98);}
+    .market-emoji{font-size:44px;flex-shrink:0;}
+    .market-info{flex:1;min-width:0;}
+    .market-name{font-size:16px;}
+    .market-price{font-size:18px;color:var(--yellow);font-weight:bold;display:flex;align-items:center;gap:6px;margin-top:2px;}
+    .market-trend{font-size:12px;}
+    .market-grade{font-size:11px;color:var(--text-dim);margin-top:2px;}
+    .hot-reason{font-size:11px;color:var(--orange);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .mini-chart{width:60px;height:30px;flex-shrink:0;}
+    .buy-btn{background:linear-gradient(135deg,var(--purple),var(--purple-light));border:none;border-radius:50px;padding:8px 16px;color:white;font-family:'Jua',sans-serif;font-size:14px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+    .buy-btn:active{transform:scale(.95);}
+    .cant-buy{background:rgba(255,255,255,.1);color:var(--text-dim);cursor:not-allowed;}
     /* 모달 */
-    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(5px); z-index:100; display:flex; align-items:flex-end; opacity:0; pointer-events:none; transition:opacity .3s; }
-    .modal-overlay.show { opacity:1; pointer-events:all; }
-    .modal-box { background:#1a0533; border:1px solid rgba(255,255,255,.15); border-radius:24px 24px 0 0; padding:24px 20px 40px; width:100%; transform:translateY(100%); transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
-    .modal-overlay.show .modal-box { transform:translateY(0); }
-    .modal-handle { width:40px; height:4px; background:rgba(255,255,255,.2); border-radius:2px; margin:0 auto 20px; }
-    .modal-card-big { font-size:80px; text-align:center; display:block; margin:10px 0; }
-    .modal-title { font-size:24px; text-align:center; margin-bottom:4px; }
-    .modal-price { font-size:20px; text-align:center; color:var(--yellow); margin-bottom:6px; }
-    .modal-desc { font-size:13px; text-align:center; color:var(--text-dim); margin-bottom:20px; line-height:1.6; white-space:pre-line; }
-    .modal-actions { display:flex; gap:10px; }
-    .btn-primary { flex:1; background:linear-gradient(135deg,var(--yellow),var(--orange)); border:none; border-radius:14px; padding:16px; color:#1a0533; font-family:'Jua',sans-serif; font-size:17px; cursor:pointer; transition:all .2s; }
-    .btn-primary:active { transform:scale(.97); }
-    .btn-secondary { flex:1; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15); border-radius:14px; padding:16px; color:white; font-family:'Jua',sans-serif; font-size:17px; cursor:pointer; transition:all .2s; }
-    .btn-sell { background:linear-gradient(135deg,var(--pink),#ff4477); color:white; }
-    .qty-control { display:flex; align-items:center; justify-content:center; gap:20px; margin:16px 0; }
-    .qty-btn { width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); color:white; font-size:24px; cursor:pointer; font-family:'Jua',sans-serif; transition:all .2s; }
-    .qty-btn:active { transform:scale(.9); }
-    .qty-display { font-size:32px; min-width:50px; text-align:center; }
-    .total-cost { text-align:center; font-size:14px; color:var(--text-dim); margin-bottom:16px; }
-    .total-cost span { color:var(--yellow); font-size:18px; }
-
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(5px);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .3s;}
+    .modal-overlay.show{opacity:1;pointer-events:all;}
+    .modal-box{background:#1a0533;border:1px solid rgba(255,255,255,.15);border-radius:24px 24px 0 0;padding:24px 20px 40px;width:100%;transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+    .modal-overlay.show .modal-box{transform:translateY(0);}
+    .modal-handle{width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:0 auto 20px;}
+    .modal-card-big{font-size:80px;text-align:center;display:block;margin:10px 0;}
+    .modal-title{font-size:24px;text-align:center;margin-bottom:4px;}
+    .modal-price{font-size:20px;text-align:center;color:var(--yellow);margin-bottom:6px;}
+    .modal-desc{font-size:13px;text-align:center;color:var(--text-dim);margin-bottom:20px;line-height:1.6;white-space:pre-line;}
+    .modal-actions{display:flex;gap:10px;}
+    .btn-primary{flex:1;background:linear-gradient(135deg,var(--yellow),var(--orange));border:none;border-radius:14px;padding:16px;color:#1a0533;font-family:'Jua',sans-serif;font-size:17px;cursor:pointer;transition:all .2s;}
+    .btn-primary:active{transform:scale(.97);}
+    .btn-secondary{flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:16px;color:white;font-family:'Jua',sans-serif;font-size:17px;cursor:pointer;transition:all .2s;}
+    .btn-sell{background:linear-gradient(135deg,var(--pink),#ff4477);color:white;}
+    .qty-control{display:flex;align-items:center;justify-content:center;gap:20px;margin:16px 0;}
+    .qty-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;font-size:24px;cursor:pointer;font-family:'Jua',sans-serif;transition:all .2s;}
+    .qty-btn:active{transform:scale(.9);}
+    .qty-display{font-size:32px;min-width:50px;text-align:center;}
+    .total-cost{text-align:center;font-size:14px;color:var(--text-dim);margin-bottom:16px;}
+    .total-cost span{color:var(--yellow);font-size:18px;}
     /* 컬렉션 */
-    .collection-summary { margin:0 20px 16px; background:linear-gradient(135deg,rgba(108,46,185,.25),rgba(78,205,196,.15)); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; }
-    .col-summary-item { text-align:center; }
-    .col-summary-label { font-size:11px; color:var(--text-dim); margin-bottom:3px; }
-    .col-summary-value { font-size:15px; color:var(--yellow); }
-    .collection-list { padding:0 20px 100px; }
-    .collection-row { background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px; padding:16px; margin-bottom:12px; display:flex; align-items:center; gap:14px; cursor:pointer; transition:all .2s; backdrop-filter:blur(10px); }
-    .collection-row:active { transform:scale(.98); }
-    .col-emoji { font-size:40px; flex-shrink:0; }
-    .col-info { flex:1; min-width:0; }
-    .col-name { font-size:16px; }
-    .col-detail { font-size:12px; color:var(--text-dim); margin-top:3px; }
-    .col-right { text-align:right; flex-shrink:0; }
-    .col-current-price { font-size:17px; color:var(--yellow); font-weight:bold; }
-    .col-profit { font-size:13px; margin-top:4px; padding:3px 10px; border-radius:50px; display:inline-block; }
-    .profit-up { background:rgba(74,222,128,.15); color:var(--green); }
-    .profit-down { background:rgba(248,113,113,.15); color:var(--red); }
-    .profit-same { background:rgba(255,255,255,.08); color:var(--text-dim); }
-
-    /* 기록/자산 */
-    .history-list { padding:0 20px 100px; }
-    .history-item { background:var(--card-bg); border:1px solid var(--card-border); border-radius:14px; padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; backdrop-filter:blur(10px); }
-    .history-icon { font-size:30px; flex-shrink:0; }
-    .history-info { flex:1; }
-    .history-desc { font-size:14px; }
-    .history-date { font-size:11px; color:var(--text-dim); margin-top:2px; }
-    .history-amount { font-size:16px; font-weight:bold; }
-    .amount-plus { color:var(--green); } .amount-minus { color:var(--red); }
-    .asset-summary { margin:0 20px 20px; background:linear-gradient(135deg,rgba(108,46,185,.3),rgba(255,107,157,.2)); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:20px; }
-    .asset-total-row { text-align:center; margin-bottom:4px; }
-    .asset-label { font-size:12px; color:var(--text-dim); margin-bottom:4px; }
-    .asset-total { font-size:36px; color:var(--yellow); }
-    .asset-breakdown { display:flex; gap:10px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.1); align-items:center; }
-    .asset-item { flex:1; background:rgba(255,255,255,.06); border-radius:12px; padding:12px 10px; text-align:center; }
-    .asset-item-icon { font-size:22px; display:block; margin-bottom:5px; }
-    .asset-item-label { font-size:10px; color:var(--text-dim); margin-bottom:4px; }
-    .asset-item-value { font-size:15px; color:var(--yellow); }
-    .asset-divider { color:var(--text-dim); font-size:20px; flex-shrink:0; }
-
+    .collection-summary{margin:0 20px 16px;background:linear-gradient(135deg,rgba(108,46,185,.25),rgba(78,205,196,.15));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;}
+    .col-summary-item{text-align:center;}
+    .col-summary-label{font-size:11px;color:var(--text-dim);margin-bottom:3px;}
+    .col-summary-value{font-size:15px;color:var(--yellow);}
+    .collection-list{padding:0 20px 100px;}
+    .collection-row{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;backdrop-filter:blur(10px);}
+    .collection-row:active{transform:scale(.98);}
+    .col-emoji{font-size:40px;flex-shrink:0;}
+    .col-info{flex:1;min-width:0;}
+    .col-name{font-size:16px;}
+    .col-detail{font-size:12px;color:var(--text-dim);margin-top:3px;}
+    .col-right{text-align:right;flex-shrink:0;}
+    .col-current-price{font-size:17px;color:var(--yellow);font-weight:bold;}
+    .col-profit{font-size:13px;margin-top:4px;padding:3px 10px;border-radius:50px;display:inline-block;}
+    .profit-up{background:rgba(74,222,128,.15);color:var(--green);}
+    .profit-down{background:rgba(248,113,113,.15);color:var(--red);}
+    .profit-same{background:rgba(255,255,255,.08);color:var(--text-dim);}
+    /* ===== 순위 화면 ===== */
+    .rank-screen-inner{padding:0 20px 100px;}
+    /* 내 순위 강조 카드 */
+    .my-rank-card{background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,140,66,.1));border:2px solid rgba(255,215,0,.4);border-radius:20px;padding:20px;margin-bottom:20px;text-align:center;position:relative;overflow:hidden;}
+    .my-rank-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,215,0,.1),transparent 70%);pointer-events:none;}
+    .my-rank-label{font-size:12px;color:var(--yellow);margin-bottom:6px;}
+    .my-rank-number{font-size:52px;font-weight:bold;line-height:1;margin-bottom:4px;}
+    .my-rank-total{font-size:13px;color:var(--text-dim);}
+    .my-rank-asset{font-size:18px;color:var(--yellow);margin-top:8px;}
+    /* 탭 토글 */
+    .rank-tabs{display:flex;background:rgba(255,255,255,.06);border-radius:50px;padding:4px;margin-bottom:16px;}
+    .rank-tab{flex:1;padding:8px;border-radius:50px;font-family:'Jua',sans-serif;font-size:13px;color:var(--text-dim);cursor:pointer;text-align:center;transition:all .2s;border:none;background:transparent;}
+    .rank-tab.active{background:linear-gradient(135deg,var(--purple),var(--purple-light));color:white;}
+    /* 랭킹 리스트 */
+    .rank-list{}
+    .rank-item{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);transition:all .2s;}
+    .rank-item.me{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.07);}
+    .rank-item.rank-1{border-color:rgba(255,215,0,.6);}
+    .rank-item.rank-2{border-color:rgba(192,192,192,.4);}
+    .rank-item.rank-3{border-color:rgba(205,127,50,.4);}
+    .rank-num{font-size:22px;width:36px;text-align:center;flex-shrink:0;}
+    .rank-avatar{font-size:32px;flex-shrink:0;}
+    .rank-info{flex:1;min-width:0;}
+    .rank-name{font-size:15px;display:flex;align-items:center;gap:6px;}
+    .rank-type-badge{font-size:10px;padding:2px 7px;border-radius:50px;flex-shrink:0;}
+    .badge-attack{background:rgba(248,113,113,.2);color:#f87171;}
+    .badge-news{background:rgba(255,140,66,.2);color:var(--orange);}
+    .badge-stable{background:rgba(74,222,128,.2);color:var(--green);}
+    .badge-beginner{background:rgba(156,163,175,.2);color:#9ca3af;}
+    .badge-me{background:rgba(255,215,0,.2);color:var(--yellow);}
+    .rank-strategy{font-size:11px;color:var(--text-dim);margin-top:3px;}
+    .rank-asset{text-align:right;flex-shrink:0;}
+    .rank-asset-val{font-size:16px;color:var(--yellow);font-weight:bold;}
+    .rank-asset-change{font-size:11px;margin-top:3px;}
+    /* 수익률 탭용 */
+    .rank-return-val{font-size:16px;font-weight:bold;}
+    /* 기록 */
+    .history-list{padding:0 20px 100px;}
+    .history-item{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);}
+    .history-icon{font-size:30px;flex-shrink:0;}
+    .history-info{flex:1;}
+    .history-desc{font-size:14px;}
+    .history-date{font-size:11px;color:var(--text-dim);margin-top:2px;}
+    .history-amount{font-size:16px;font-weight:bold;}
+    .amount-plus{color:var(--green);}.amount-minus{color:var(--red);}
+    /* 자산 요약 */
+    .asset-summary{margin:0 20px 20px;background:linear-gradient(135deg,rgba(108,46,185,.3),rgba(255,107,157,.2));border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:20px;}
+    .asset-total-row{text-align:center;margin-bottom:4px;}
+    .asset-label{font-size:12px;color:var(--text-dim);margin-bottom:4px;}
+    .asset-total{font-size:36px;color:var(--yellow);}
+    .asset-breakdown{display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);align-items:center;}
+    .asset-item{flex:1;background:rgba(255,255,255,.06);border-radius:12px;padding:12px 10px;text-align:center;}
+    .asset-item-icon{font-size:22px;display:block;margin-bottom:5px;}
+    .asset-item-label{font-size:10px;color:var(--text-dim);margin-bottom:4px;}
+    .asset-item-value{font-size:15px;color:var(--yellow);}
+    .asset-divider{color:var(--text-dim);font-size:20px;flex-shrink:0;}
     /* GNB */
-    .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; background:rgba(26,5,51,.9); backdrop-filter:blur(20px); border-top:1px solid rgba(255,255,255,.1); display:flex; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
-    .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; padding:12px 0 10px; cursor:pointer; transition:all .2s; gap:4px; }
-    .nav-icon { font-size:24px; transition:transform .2s; }
-    .nav-label { font-size:10px; color:var(--text-dim); }
-    .nav-item.active .nav-label { color:var(--yellow); }
-    .nav-item.active .nav-icon { transform:scale(1.2); }
-
-    .toast { position:fixed; top:60px; left:50%; transform:translateX(-50%) translateY(-20px); background:rgba(30,15,60,.95); border:1px solid rgba(255,255,255,.2); border-radius:50px; padding:12px 24px; font-size:14px; z-index:200; opacity:0; transition:all .3s; white-space:nowrap; backdrop-filter:blur(20px); }
-    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-    .particle { position:fixed; pointer-events:none; font-size:24px; z-index:300; animation:particleFly 1s ease-out forwards; }
-    @keyframes particleFly { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-100px) scale(.5)} }
-    .empty-state { text-align:center; padding:60px 20px; color:var(--text-dim); }
-    .empty-icon { font-size:60px; display:block; margin-bottom:16px; opacity:.5; }
-    .empty-text { font-size:15px; }
-    * { scrollbar-width:none; } *::-webkit-scrollbar { display:none; }
+    .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(26,5,51,.9);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.1);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom);}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 0 10px;cursor:pointer;transition:all .2s;gap:4px;}
+    .nav-icon{font-size:22px;transition:transform .2s;}
+    .nav-label{font-size:10px;color:var(--text-dim);}
+    .nav-item.active .nav-label{color:var(--yellow);}
+    .nav-item.active .nav-icon{transform:scale(1.2);}
+    /* 토스트 / 파티클 */
+    .toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);background:rgba(30,15,60,.95);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:12px 24px;font-size:14px;z-index:200;opacity:0;transition:all .3s;white-space:nowrap;backdrop-filter:blur(20px);}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .particle{position:fixed;pointer-events:none;font-size:24px;z-index:300;animation:particleFly 1s ease-out forwards;}
+    @keyframes particleFly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-100px) scale(.5)}}
+    .empty-state{text-align:center;padding:60px 20px;color:var(--text-dim);}
+    .empty-icon{font-size:60px;display:block;margin-bottom:16px;opacity:.5;}
+    .empty-text{font-size:15px;}
+    *{scrollbar-width:none;}*::-webkit-scrollbar{display:none;}
   </style>
 </head>
 <body>
 
 <!-- 홈 -->
 <div id="screen-home" class="screen active">
-  <div class="header">
-    <div class="header-title">🏰 카드 왕국</div>
-    <div class="coin-badge">⭐ <span id="home-coins">500</span></div>
-  </div>
+  <div class="header"><div class="header-title">🏰 카드 왕국</div><div class="coin-badge">⭐ <span id="home-coins">500</span></div></div>
   <div class="welcome-section">
     <span class="kingdom-icon">👑</span>
     <div class="welcome-title" id="greeting">안녕하세요!</div>
@@ -172,15 +202,12 @@
   </div>
   <div class="news-banner">
     <div class="news-icon">📰</div>
-    <div class="news-text">
-      <div class="news-tag">오늘의 왕국 소식</div>
-      <div id="news-text">로딩 중...</div>
-    </div>
+    <div class="news-text"><div class="news-tag">오늘의 왕국 소식</div><div id="news-text">로딩 중...</div></div>
   </div>
   <div class="quick-menu">
     <div class="menu-card" onclick="goScreen('market')"><span class="menu-emoji">🏪</span><div class="menu-label">카드 시장</div><div class="menu-sub">사고 팔기</div></div>
     <div class="menu-card" onclick="goScreen('collection')"><span class="menu-emoji">🃏</span><div class="menu-label">내 컬렉션</div><div class="menu-sub" id="home-card-count">카드 0장</div></div>
-    <div class="menu-card" onclick="goScreen('history')"><span class="menu-emoji">📊</span><div class="menu-label">거래 기록</div><div class="menu-sub">내 성적표</div></div>
+    <div class="menu-card" onclick="goScreen('rank')"><span class="menu-emoji">🏆</span><div class="menu-label">왕국 순위</div><div class="menu-sub" id="home-rank-sub">내 순위 보기</div></div>
     <div class="menu-card" onclick="showToast('🚧 곧 업데이트 예정이에요!')"><span class="menu-emoji">🎁</span><div class="menu-label">출석 보너스</div><div class="menu-sub">매일 받기</div></div>
   </div>
   <div class="section-title">내가 가진 카드 ✨</div>
@@ -191,57 +218,59 @@
 
 <!-- 시장 -->
 <div id="screen-market" class="screen">
-  <div class="header">
-    <div class="header-title">🏪 카드 시장</div>
-    <div class="coin-badge">⭐ <span id="market-coins">500</span></div>
-  </div>
+  <div class="header"><div class="header-title">🏪 카드 시장</div><div class="coin-badge">⭐ <span id="market-coins">500</span></div></div>
   <div class="market-list" id="market-list"></div>
 </div>
 
 <!-- 컬렉션 -->
 <div id="screen-collection" class="screen">
-  <div class="header">
-    <div class="header-title">🃏 내 컬렉션</div>
-    <div class="coin-badge">⭐ <span id="collection-coins">500</span></div>
-  </div>
+  <div class="header"><div class="header-title">🃏 내 컬렉션</div><div class="coin-badge">⭐ <span id="collection-coins">500</span></div></div>
   <div class="collection-summary" id="collection-summary"></div>
   <div class="section-title" style="padding-top:4px;">보유 카드 시세</div>
   <div class="collection-list" id="collection-list"></div>
 </div>
 
+<!-- 순위 -->
+<div id="screen-rank" class="screen">
+  <div class="header"><div class="header-title">🏆 왕국 순위</div><div class="coin-badge">⭐ <span id="rank-coins">500</span></div></div>
+  <div class="rank-screen-inner">
+    <div class="my-rank-card" id="my-rank-card">
+      <div class="my-rank-label">✨ 나의 현재 순위</div>
+      <div class="my-rank-number" id="my-rank-number">-위</div>
+      <div class="my-rank-total" id="my-rank-total">전체 중</div>
+      <div class="my-rank-asset" id="my-rank-asset">⭐ 500</div>
+    </div>
+    <div class="rank-tabs">
+      <button class="rank-tab active" onclick="switchRankTab('asset')">💰 총 자산</button>
+      <button class="rank-tab" onclick="switchRankTab('return')">📈 수익률</button>
+    </div>
+    <div class="rank-list" id="rank-list"></div>
+  </div>
+</div>
+
 <!-- 기록 -->
 <div id="screen-history" class="screen">
-  <div class="header">
-    <div class="header-title">📊 거래 기록</div>
-    <div class="coin-badge">⭐ <span id="history-coins">500</span></div>
-  </div>
+  <div class="header"><div class="header-title">📊 거래 기록</div><div class="coin-badge">⭐ <span id="history-coins">500</span></div></div>
   <div class="asset-summary">
     <div class="asset-total-row">
       <div class="asset-label">💰 내 전체 자산</div>
       <div class="asset-total">⭐ <span id="total-asset">500</span></div>
     </div>
     <div class="asset-breakdown">
-      <div class="asset-item">
-        <span class="asset-item-icon">⭐</span>
-        <div class="asset-item-label">보유 별코인</div>
-        <div class="asset-item-value" id="asset-coins">500</div>
-      </div>
+      <div class="asset-item"><span class="asset-item-icon">⭐</span><div class="asset-item-label">보유 별코인</div><div class="asset-item-value" id="asset-coins">500</div></div>
       <div class="asset-divider">+</div>
-      <div class="asset-item">
-        <span class="asset-item-icon">🃏</span>
-        <div class="asset-item-label">카드 현물가치</div>
-        <div class="asset-item-value" id="asset-card-value">0</div>
-      </div>
+      <div class="asset-item"><span class="asset-item-icon">🃏</span><div class="asset-item-label">카드 현물가치</div><div class="asset-item-value" id="asset-card-value">0</div></div>
     </div>
   </div>
   <div class="history-list" id="history-list"></div>
 </div>
 
-<!-- GNB -->
+<!-- GNB (5탭) -->
 <nav class="bottom-nav">
   <div class="nav-item active" onclick="goScreen('home')" id="nav-home"><div class="nav-icon">🏠</div><div class="nav-label">홈</div></div>
   <div class="nav-item" onclick="goScreen('market')" id="nav-market"><div class="nav-icon">🏪</div><div class="nav-label">시장</div></div>
   <div class="nav-item" onclick="goScreen('collection')" id="nav-collection"><div class="nav-icon">🃏</div><div class="nav-label">컬렉션</div></div>
+  <div class="nav-item" onclick="goScreen('rank')" id="nav-rank"><div class="nav-icon">🏆</div><div class="nav-label">순위</div></div>
   <div class="nav-item" onclick="goScreen('history')" id="nav-history"><div class="nav-icon">📊</div><div class="nav-label">기록</div></div>
 </nav>
 
@@ -268,6 +297,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// ===== 카드 데이터 =====
 const CARDS = [
   {id:'cat',    emoji:'🐱',name:'고양이',grade:'common',basePrice:50, desc:'귀엽고 도도한 고양이예요. 매일 야옹~ 해줘요!'},
   {id:'dog',    emoji:'🐶',name:'강아지',grade:'common',basePrice:60, desc:'친구들에게 인기 최고! 꼬리를 흔들어요 🐾'},
@@ -279,6 +309,7 @@ const CARDS = [
   {id:'unicorn',emoji:'🦄',name:'유니콘',grade:'epic',  basePrice:350,desc:'반짝반짝 빛나는 유니콘!'},
   {id:'phoenix',emoji:'🐦',name:'불사조',grade:'epic',  basePrice:400,desc:'불꽃 속에서 태어난 전설의 새!'},
 ];
+
 const NEWS_EVENTS = [
   {text:'드래곤이 왕국 축제에 나타났어요! 🎉',affected:'dragon', change:0.3,  reason:'축제 등장으로 인기 폭발!'},
   {text:'고양이가 인기 영상에 나왔어요! 📹',  affected:'cat',    change:0.2,  reason:'유명 방송 출연 효과'},
@@ -293,28 +324,104 @@ const NEWS_EVENTS = [
   {text:'왕국에 큰 폭풍이 왔어요! 🌪️',       affected:null,     change:-0.1, reason:'거래 위축 영향'},
   {text:'왕국 왕이 카드 축제를 열었어요! 🎊', affected:null,     change:0.1,  reason:'전체 카드 수요 증가'},
 ];
+
 const GRADE_LABEL = {common:'흔한',rare:'희귀',epic:'전설'};
 
+// ===== 가상 유저 정의 =====
+// type: 'attack'=공격형(전설 올인), 'news'=뉴스추종형, 'stable'=안정형, 'beginner'=초보형
+const VIRTUAL_USERS = [
+  {id:'v1', name:'드래곤마스터',  avatar:'🐉', type:'attack',   badge:'badge-attack',  label:'⚔️ 공격형',  strategy:'전설 카드만 올인!',      startCoins:500},
+  {id:'v2', name:'뉴스헌터',      avatar:'📰', type:'news',     badge:'badge-news',    label:'🔥 뉴스추종형',strategy:'핫 카드만 노린다!',      startCoins:500},
+  {id:'v3', name:'불사조킹',      avatar:'🐦', type:'attack',   badge:'badge-attack',  label:'⚔️ 공격형',  strategy:'가장 비싼 카드만!',       startCoins:500},
+  {id:'v4', name:'토끼부자',      avatar:'🐰', type:'stable',   badge:'badge-stable',  label:'🛡️ 안정형',  strategy:'흔한 카드 꾸준히 모으기', startCoins:500},
+  {id:'v5', name:'뉴스탐정',      avatar:'🦊', type:'news',     badge:'badge-news',    label:'🔥 뉴스추종형',strategy:'오늘 뉴스 카드 싹쓸이!', startCoins:500},
+  {id:'v6', name:'겁쟁이왕',      avatar:'😰', type:'beginner', badge:'badge-beginner',label:'😰 초보형',   strategy:'별코인이 무서워서 못 사겠어…',startCoins:500},
+  {id:'v7', name:'유니콘걸',      avatar:'🦄', type:'attack',   badge:'badge-attack',  label:'⚔️ 공격형',  strategy:'유니콘&드래곤 집중 투자', startCoins:500},
+  {id:'v8', name:'분산투자왕',    avatar:'🤖', type:'stable',   badge:'badge-stable',  label:'🛡️ 안정형',  strategy:'조금씩 다양하게!',         startCoins:500},
+];
+
+// ===== 날짜 씨앗 =====
 function seededRandom(seed){let x=Math.sin(seed)*10000;return x-Math.floor(x);}
 function getDateSeed(){const d=new Date();return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();}
-function getTodayPrices(){const seed=getDateSeed();return CARDS.map((c,i)=>{const r=seededRandom(seed+i*137);return Math.max(10,Math.round(c.basePrice*(1+(r-0.5)*0.4)))});}
+function getTodayPrices(){
+  const seed=getDateSeed();
+  return CARDS.map((c,i)=>{const r=seededRandom(seed+i*137);return Math.max(10,Math.round(c.basePrice*(1+(r-0.5)*0.4)));});
+}
 function getTodayNews(){const seed=getDateSeed();return NEWS_EVENTS[Math.floor(seededRandom(seed*7)*NEWS_EVENTS.length)];}
 
+// ===== 가상 유저 자산 계산 (날짜 씨앗 기반) =====
+function calcVirtualAsset(user) {
+  const seed = getDateSeed();
+  const prices = getTodayPrices();
+  const news = getTodayNews();
+  let coins = user.startCoins;
+  let cardValue = 0;
+  // 날짜 기반으로 유저별 고유한 랜덤 시뮬레이션
+  const u = seededRandom(seed + user.id.charCodeAt(1) * 999);
+
+  if (user.type === 'beginner') {
+    // 초보형: 거의 안 삼, 코인만 보유 + 약간 변동
+    coins = Math.round(500 + (u - 0.5) * 60);
+    cardValue = 0;
+  } else if (user.type === 'attack') {
+    // 공격형: 전설 카드(6,7,8번) 에 집중, 많이 삼
+    coins = Math.round(30 + u * 80);
+    const epicIndices = [6, 7, 8];
+    epicIndices.forEach((ci, idx) => {
+      const r = seededRandom(seed + user.id.charCodeAt(1) * 77 + idx * 31);
+      const qty = Math.round(r * 1.5);
+      // 뉴스 반영 가격
+      let p = prices[ci];
+      if (news.affected === CARDS[ci].id || news.affected === null) p = Math.round(p * (1 + news.change));
+      cardValue += qty * Math.max(10, p);
+    });
+  } else if (user.type === 'news') {
+    // 뉴스추종형: 오늘 핫 카드 집중 매수
+    coins = Math.round(50 + u * 100);
+    CARDS.forEach((card, ci) => {
+      const isHot = (news.affected === card.id && news.change > 0.05) || (news.affected === null && news.change > 0);
+      if (isHot) {
+        const r = seededRandom(seed + user.id.charCodeAt(1) * 53 + ci * 17);
+        const qty = Math.round(1 + r * 3);
+        let p = prices[ci];
+        if (news.affected === card.id || news.affected === null) p = Math.round(p * (1 + news.change));
+        cardValue += qty * Math.max(10, p);
+      }
+    });
+  } else if (user.type === 'stable') {
+    // 안정형: 흔한 카드(0,1,2) 여러 장
+    coins = Math.round(100 + u * 150);
+    [0,1,2].forEach((ci, idx) => {
+      const r = seededRandom(seed + user.id.charCodeAt(1) * 41 + idx * 23);
+      const qty = Math.round(2 + r * 4);
+      let p = prices[ci];
+      if (news.affected === CARDS[ci].id || news.affected === null) p = Math.round(p * (1 + news.change));
+      cardValue += qty * Math.max(10, p);
+    });
+  }
+  return { coins, cardValue, total: coins + cardValue };
+}
+
+// ===== 저장 =====
 function loadState(){const s=localStorage.getItem('cardKingdom');return s?JSON.parse(s):{coins:500,cards:{},history:[],avgPrice:{}};}
 function saveState(){localStorage.setItem('cardKingdom',JSON.stringify(state));}
 
-let state=loadState();
-let todayPrices=getTodayPrices();
-let todayNews=getTodayNews();
-if(!state.avgPrice)state.avgPrice={};
+let state = loadState();
+let todayPrices = getTodayPrices();
+let todayNews = getTodayNews();
+if (!state.avgPrice) state.avgPrice = {};
 
 function getPriceWithNews(i){
-  let p=todayPrices[i];
-  const card=CARDS[i];
-  if(todayNews.affected===null||todayNews.affected===card.id) p=Math.round(p*(1+todayNews.change));
-  return Math.max(10,p);
+  let p = todayPrices[i];
+  if (todayNews.affected === CARDS[i].id || todayNews.affected === null) p = Math.round(p*(1+todayNews.change));
+  return Math.max(10, p);
+}
+function getMyTotalAsset(){
+  const cv = CARDS.reduce((s,c,i)=>s+(state.cards[c.id]||0)*getPriceWithNews(i),0);
+  return state.coins + cv;
 }
 
+// ===== 화면 전환 =====
 function goScreen(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -324,10 +431,16 @@ function goScreen(name){
   if(name==='home')renderHome();
   if(name==='market')renderMarket();
   if(name==='collection')renderCollection();
+  if(name==='rank')renderRank('asset');
   if(name==='history')renderHistory();
 }
-function updateCoins(){['home','market','collection','history'].forEach(s=>{const el=document.getElementById(s+'-coins');if(el)el.textContent=state.coins.toLocaleString();});}
+function updateCoins(){
+  ['home','market','collection','rank','history'].forEach(s=>{
+    const el=document.getElementById(s+'-coins');if(el)el.textContent=state.coins.toLocaleString();
+  });
+}
 
+// ===== 홈 =====
 function renderHome(){
   const now=new Date();const h=now.getHours();
   document.getElementById('greeting').textContent=h<12?'좋은 아침이에요! ☀️':h<18?'안녕하세요! 👋':'좋은 저녁이에요! 🌙';
@@ -335,9 +448,17 @@ function renderHome(){
   document.getElementById('news-text').textContent=todayNews.text;
   const myIds=Object.keys(state.cards).filter(id=>state.cards[id]>0);
   document.getElementById('home-card-count').textContent='카드 '+myIds.reduce((s,id)=>s+state.cards[id],0)+'장';
+  // 홈 순위 미리보기
+  const myAsset = getMyTotalAsset();
+  const allAssets = VIRTUAL_USERS.map(u=>calcVirtualAsset(u).total);
+  allAssets.push(myAsset);
+  allAssets.sort((a,b)=>b-a);
+  const myRank = allAssets.indexOf(myAsset)+1;
+  document.getElementById('home-rank-sub').textContent=myRank+'위 / '+allAssets.length+'명';
   const el=document.getElementById('home-my-cards');
-  if(!myIds.length){el.innerHTML='<div style="padding:20px;color:var(--text-dim);font-size:13px;">아직 카드가 없어요!<br>시장에서 사와요 🛒</div>';return;}
-  el.innerHTML=myIds.map(id=>{
+  const myCardIds=Object.keys(state.cards).filter(id=>state.cards[id]>0);
+  if(!myCardIds.length){el.innerHTML='<div style="padding:20px;color:var(--text-dim);font-size:13px;">아직 카드가 없어요!<br>시장에서 사와요 🛒</div>';return;}
+  el.innerHTML=myCardIds.map(id=>{
     const ci=CARDS.findIndex(c=>c.id===id);const card=CARDS[ci];const price=getPriceWithNews(ci);
     const diff=price-card.basePrice;const tc=diff>0?'trend-up':diff<0?'trend-down':'trend-same';
     const tt=diff>0?'▲ '+diff:diff<0?'▼ '+Math.abs(diff):'─';
@@ -345,24 +466,33 @@ function renderHome(){
   }).join('');
 }
 
+// ===== 시장 =====
 function renderMarket(){
   const data=CARDS.map((card,i)=>{
     const price=getPriceWithNews(i);const base=card.basePrice;const diff=price-base;const pct=Math.round(diff/base*100);
     const isHot=(todayNews.affected===card.id&&todayNews.change>0.1)||(todayNews.affected===null&&todayNews.change>0.05);
-    return {card,i,price,base,diff,pct,isHot};
+    return{card,i,price,base,diff,pct,isHot};
   });
   const hot=data.filter(d=>d.isHot);const normal=data.filter(d=>!d.isHot);
   function makeItem(d,isHot){
-    const {card,i,price,base,diff,pct}=d;
+    const{card,i,price,diff,pct}=d;
     const tc=diff>0?'trend-up':diff<0?'trend-down':'trend-same';
     const tt=diff>0?'▲ '+pct+'%':diff<0?'▼ '+Math.abs(pct)+'%':'─';
     const canBuy=state.coins>=price;const owned=state.cards[card.id]||0;
-    const pts=((arr,mn,mx)=>arr.map((p,j)=>j*12+','+(28-Math.round((p-mn)/(mx-mn||1)*24))).join(' '))([...Array(5)].map((_,j)=>Math.round(base*(0.8+seededRandom(getDateSeed()-j*100+i*137)*0.4))).reverse().concat(price),Math.min,...[...Array(5)].map((_,j)=>Math.round(base*(0.8+seededRandom(getDateSeed()-j*100+i*137)*0.4))).concat(price));
+    const base=card.basePrice;
     const chartArr=[...[...Array(5)].map((_,j)=>Math.round(base*(0.8+seededRandom(getDateSeed()-j*100+i*137)*0.4))).reverse(),price];
     const mn=Math.min(...chartArr),mx=Math.max(...chartArr),rng=mx-mn||1;
     const cpts=chartArr.map((p,j)=>j*12+','+(28-Math.round((p-mn)/rng*24))).join(' ');
     const lc=diff>=0?'#4ade80':'#f87171';
-    return '<div class="market-item'+(isHot?' hot-item':'')+'" onclick="openBuyModal('+i+')"><div class="market-emoji">'+card.emoji+'</div><div class="market-info"><div class="market-name">'+card.name+(owned>0?' <small style="color:var(--yellow)">보유 '+owned+'장</small>':'')+'</div><div class="market-price">⭐ '+price.toLocaleString()+' <span class="market-trend '+tc+'">'+tt+'</span></div><div class="market-grade">'+GRADE_LABEL[card.grade]+' 카드</div>'+(isHot?'<div class="hot-reason">🔥 '+todayNews.reason+'</div>':'')+'</div><svg class="mini-chart" viewBox="0 0 60 30" preserveAspectRatio="none"><polyline points="'+cpts+'" fill="none" stroke="'+lc+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><button class="buy-btn'+(canBuy?'':' cant-buy')+'" onclick="event.stopPropagation();openBuyModal('+i+')">'+(canBuy?'사기':'부족')+'</button></div>';
+    return '<div class="market-item'+(isHot?' hot-item':'')+'" onclick="openBuyModal('+i+')">'
+      +'<div class="market-emoji">'+card.emoji+'</div>'
+      +'<div class="market-info"><div class="market-name">'+card.name+(owned>0?' <small style="color:var(--yellow)">보유 '+owned+'장</small>':'')+'</div>'
+      +'<div class="market-price">⭐ '+price.toLocaleString()+' <span class="market-trend '+tc+'">'+tt+'</span></div>'
+      +'<div class="market-grade">'+GRADE_LABEL[card.grade]+' 카드</div>'
+      +(isHot?'<div class="hot-reason">🔥 '+todayNews.reason+'</div>':'')
+      +'</div><svg class="mini-chart" viewBox="0 0 60 30" preserveAspectRatio="none">'
+      +'<polyline points="'+cpts+'" fill="none" stroke="'+lc+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      +'<button class="buy-btn'+(canBuy?'':' cant-buy')+'" onclick="event.stopPropagation();openBuyModal('+i+')">'+(canBuy?'사기':'부족')+'</button></div>';
   }
   let html='';
   if(hot.length){html+='<div class="market-section-label"><span class="hot-label">🔥 오늘의 핫 카드</span> · '+todayNews.text+'</div>'+hot.map(d=>makeItem(d,true)).join('')+'<hr class="market-divider"><div class="market-section-label">전체 카드</div>';}
@@ -370,10 +500,10 @@ function renderMarket(){
   document.getElementById('market-list').innerHTML=html;
 }
 
+// ===== 컬렉션 =====
 function renderCollection(){
   const myIds=Object.keys(state.cards).filter(id=>state.cards[id]>0);
-  const sumEl=document.getElementById('collection-summary');
-  const listEl=document.getElementById('collection-list');
+  const sumEl=document.getElementById('collection-summary');const listEl=document.getElementById('collection-list');
   if(!myIds.length){
     sumEl.innerHTML='<div style="color:var(--text-dim);font-size:13px;text-align:center;width:100%;">아직 보유한 카드가 없어요</div>';
     listEl.innerHTML='<div class="empty-state"><span class="empty-icon">🃏</span><div class="empty-text">시장에서 카드를 사면<br>여기서 시세를 확인할 수 있어요!</div></div>';
@@ -383,20 +513,96 @@ function renderCollection(){
   const cardValue=myIds.reduce((s,id)=>{const ci=CARDS.findIndex(c=>c.id===id);return s+state.cards[id]*getPriceWithNews(ci);},0);
   const avgCost=myIds.reduce((s,id)=>{const avg=state.avgPrice[id]||CARDS.find(c=>c.id===id).basePrice;return s+avg*state.cards[id];},0);
   const profit=cardValue-avgCost;const pct=avgCost>0?Math.round(profit/avgCost*100):0;
-  const pc=profit>0?'var(--green)':profit<0?'var(--red)':'var(--text-dim)';
-  const ps=profit>0?'+':'';
+  const pc=profit>0?'var(--green)':profit<0?'var(--red)':'var(--text-dim)';const ps=profit>0?'+':'';
   sumEl.innerHTML='<div class="col-summary-item"><div class="col-summary-label">보유 종목</div><div class="col-summary-value">'+myIds.length+'종 '+totalCards+'장</div></div><div class="col-summary-item"><div class="col-summary-label">카드 총 가치</div><div class="col-summary-value">⭐'+cardValue.toLocaleString()+'</div></div><div class="col-summary-item"><div class="col-summary-label">평가 손익</div><div class="col-summary-value" style="color:'+pc+'">'+ps+profit.toLocaleString()+' ('+ps+pct+'%)</div></div>';
   listEl.innerHTML=myIds.map(id=>{
     const ci=CARDS.findIndex(c=>c.id===id);const card=CARDS[ci];const count=state.cards[id];
     const curP=getPriceWithNews(ci);const avgP=state.avgPrice[id]||card.basePrice;
     const diff=curP-avgP;const p=Math.round(diff/avgP*100);
     const pc2=diff>0?'profit-up':diff<0?'profit-down':'profit-same';const s2=diff>0?'+':'';
-    return {ci,card,count,curP,avgP,diff,p,pc2,s2};
+    return{ci,card,count,curP,avgP,diff,p,pc2,s2};
   }).sort((a,b)=>b.p-a.p).map(({ci,card,count,curP,avgP,diff,p,pc2,s2})=>
     '<div class="collection-row" onclick="openSellModal('+ci+')"><div class="col-emoji">'+card.emoji+'</div><div class="col-info"><div class="col-name">'+card.name+' <small style="color:var(--text-dim);font-size:12px;">'+GRADE_LABEL[card.grade]+'</small></div><div class="col-detail">'+count+'장 보유 · 평균매수 ⭐'+avgP+'</div></div><div class="col-right"><div class="col-current-price">⭐'+curP.toLocaleString()+'</div><div class="col-profit '+pc2+'">'+s2+p+'% ('+s2+diff+')</div></div></div>'
   ).join('');
 }
 
+// ===== 순위 =====
+let currentRankTab = 'asset';
+function switchRankTab(tab){
+  currentRankTab = tab;
+  document.querySelectorAll('.rank-tab').forEach((el,i)=>{
+    el.classList.toggle('active', (i===0&&tab==='asset')||(i===1&&tab==='return'));
+  });
+  renderRankList(tab);
+}
+
+function renderRank(tab){
+  currentRankTab = tab;
+  updateCoins();
+  // 전체 유저(가상+나) 자산 계산
+  const myAsset = getMyTotalAsset();
+  // 내 수익률: 초기 500코인 대비
+  const myReturn = Math.round((myAsset - 500) / 500 * 100);
+
+  // 내 순위(자산 기준)
+  const allAssets = VIRTUAL_USERS.map(u=>calcVirtualAsset(u).total).concat(myAsset);
+  allAssets.sort((a,b)=>b-a);
+  const myRank = allAssets.indexOf(myAsset)+1;
+  const total = allAssets.length;
+
+  const rankEmoji = myRank===1?'🥇':myRank===2?'🥈':myRank===3?'🥉':myRank+'위';
+  document.getElementById('my-rank-number').textContent = rankEmoji;
+  document.getElementById('my-rank-total').textContent = '전체 '+total+'명 중';
+  document.getElementById('my-rank-asset').textContent = '⭐ '+myAsset.toLocaleString()+'  · 수익률 '+(myReturn>=0?'+':'')+myReturn+'%';
+
+  renderRankList(tab);
+}
+
+function renderRankList(tab){
+  const myAsset = getMyTotalAsset();
+  const myReturn = Math.round((myAsset - 500) / 500 * 100);
+
+  // 전체 유저 목록 구성
+  const users = VIRTUAL_USERS.map(u=>{
+    const {total,coins,cardValue}=calcVirtualAsset(u);
+    const ret = Math.round((total-500)/500*100);
+    return {...u, total, coins, cardValue, ret};
+  });
+  // 나 추가
+  const cv=CARDS.reduce((s,c,i)=>s+(state.cards[c.id]||0)*getPriceWithNews(i),0);
+  users.push({id:'me',name:'나',avatar:'👤',type:'me',badge:'badge-me',label:'👤 나',strategy:'열심히 투자 중!',total:myAsset,coins:state.coins,cardValue:cv,ret:myReturn,isMe:true});
+
+  // 정렬
+  if(tab==='asset') users.sort((a,b)=>b.total-a.total);
+  else users.sort((a,b)=>b.ret-a.ret);
+
+  const html = users.map((u,idx)=>{
+    const rank = idx+1;
+    const rankIcon = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':'<span style="font-size:16px;color:var(--text-dim)">'+rank+'</span>';
+    const meClass = u.isMe?' me':'';
+    const rankClass = rank<=3?' rank-'+rank:'';
+    const retColor = u.ret>0?'var(--green)':u.ret<0?'var(--red)':'var(--text-dim)';
+    const retSign = u.ret>=0?'+':'';
+
+    const rightHtml = tab==='asset'
+      ? '<div class="rank-asset"><div class="rank-asset-val">⭐'+u.total.toLocaleString()+'</div><div class="rank-asset-change" style="color:'+retColor+'">'+retSign+u.ret+'%</div></div>'
+      : '<div class="rank-asset"><div class="rank-return-val" style="color:'+retColor+'">'+retSign+u.ret+'%</div><div style="font-size:11px;color:var(--text-dim);margin-top:3px;">⭐'+u.total.toLocaleString()+'</div></div>';
+
+    return '<div class="rank-item'+meClass+rankClass+'">'
+      +'<div class="rank-num">'+rankIcon+'</div>'
+      +'<div class="rank-avatar">'+u.avatar+'</div>'
+      +'<div class="rank-info">'
+      +'<div class="rank-name">'+u.name+' <span class="rank-type-badge '+u.badge+'">'+u.label+'</span></div>'
+      +'<div class="rank-strategy">'+u.strategy+'</div>'
+      +'</div>'
+      +rightHtml
+      +'</div>';
+  }).join('');
+
+  document.getElementById('rank-list').innerHTML=html;
+}
+
+// ===== 기록 =====
 function renderHistory(){
   const cardValue=CARDS.reduce((s,c,i)=>s+(state.cards[c.id]||0)*getPriceWithNews(i),0);
   const total=state.coins+cardValue;
@@ -410,8 +616,8 @@ function renderHistory(){
   ).join('');
 }
 
+// ===== 모달 =====
 let currentCardIdx=null,currentQty=1,currentMode='buy';
-
 function openBuyModal(ci){
   currentCardIdx=ci;currentQty=1;currentMode='buy';
   const card=CARDS[ci];const price=getPriceWithNews(ci);
@@ -429,7 +635,6 @@ function openBuyModal(ci){
   if(state.coins<price)btn.textContent='⭐ 별코인이 부족해요';
   document.getElementById('card-modal').classList.add('show');
 }
-
 function openSellModal(ci){
   const count=state.cards[CARDS[ci].id]||0;if(!count)return;
   currentCardIdx=ci;currentQty=1;currentMode='sell';
@@ -448,7 +653,6 @@ function openSellModal(ci){
   btn.textContent='💸 팔기';btn.className='btn-primary btn-sell';btn.onclick=confirmSell;btn.style.opacity='1';
   document.getElementById('card-modal').classList.add('show');
 }
-
 function changeQty(delta){
   const price=getPriceWithNews(currentCardIdx);
   const max=currentMode==='buy'?Math.floor(state.coins/price):state.cards[CARDS[currentCardIdx].id]||0;
@@ -456,7 +660,6 @@ function changeQty(delta){
   document.getElementById('modal-qty').textContent=currentQty;
   document.getElementById('modal-total-price').textContent=(price*currentQty).toLocaleString();
 }
-
 function confirmBuy(){
   const card=CARDS[currentCardIdx];const price=getPriceWithNews(currentCardIdx);const total=price*currentQty;
   if(state.coins<total){showToast('⭐ 별코인이 부족해요!');return;}
@@ -467,7 +670,6 @@ function confirmBuy(){
   saveState();closeModal();spawnParticles(card.emoji);showToast('🎉 '+card.name+' '+currentQty+'장을 샀어요!');
   updateCoins();renderMarket();
 }
-
 function confirmSell(){
   const card=CARDS[currentCardIdx];const price=getPriceWithNews(currentCardIdx);const total=price*currentQty;
   const owned=state.cards[card.id]||0;if(owned<currentQty){showToast('카드가 부족해요!');return;}
@@ -477,7 +679,6 @@ function confirmSell(){
   saveState();closeModal();spawnParticles('⭐');showToast('💰 ⭐'+total.toLocaleString()+' 받았어요!');
   updateCoins();renderCollection();
 }
-
 function closeModal(e){if(e&&e.target!==document.getElementById('card-modal'))return;document.getElementById('card-modal').classList.remove('show');}
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500);}
 function spawnParticles(emoji){for(let i=0;i<6;i++){const p=document.createElement('div');p.className='particle';p.textContent=emoji;p.style.left=(30+Math.random()*40)+'vw';p.style.top=(40+Math.random()*20)+'vh';p.style.animationDelay=(Math.random()*.3)+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),1200);}}
